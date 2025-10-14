@@ -10,7 +10,7 @@ weights_hidden = np.array([[0.2, 0.4, 0.7, 0.5], [0.3, 0.5, 0.6, 0.9]])
 weights_output = np.array([0.2, 0.4, 0.6, 0.8])
 bias_hidden = 1
 bias_output = 1
-n_learning = 0.8
+learning_step = 0.8
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
@@ -26,7 +26,7 @@ def train_neural_network_using_back_propagation(
         bias_hidden: float,
         bias_output: float,
         y_expected: float,
-        n_learning: float  # < 1
+        learning_step: float  # < 1
 ) -> (WeightsMatrix, WeightsVector, float, float, float):
     # FORWARD FEED
 
@@ -70,11 +70,11 @@ def train_neural_network_using_back_propagation(
     logger.debug(f"Gradient of the error with respect to hidden-output bias: {bias_output_gradient}")
 
     # weights adjustment
-    weights_output_adjusted = weights_output - n_learning * weights_output_gradient
+    weights_output_adjusted = weights_output - learning_step * weights_output_gradient
     logger.debug(f"Adjusted hidden-output weights: {weights_output_adjusted}")
 
     # bias adjustment
-    bias_output_adjusted = bias_output - n_learning * bias_output_gradient
+    bias_output_adjusted = bias_output - learning_step * bias_output_gradient
     logger.debug(f"Adjusted hidden-output bias: {bias_output_adjusted}")
 
     # HIDDEN LAYER ADJUSTMENT
@@ -102,13 +102,13 @@ def train_neural_network_using_back_propagation(
     logger.debug(f"Gradient of the error with respect to hidden bias: {bias_hidden_gradient}")
 
     # weights adjustment
-    weights_hidden_adjusted = weights_hidden - n_learning * weights_hidden_gradient
+    weights_hidden_adjusted = weights_hidden - learning_step * weights_hidden_gradient
     logger.debug(f"Adjusted input-hidden weights: {weights_hidden_adjusted}")
 
     # bias adjustment
     # TODO: check if sum is right here
     bias_hidden_cumulative_gradient = bias_hidden_gradient.sum()
-    bias_hidden_adjusted = bias_hidden - n_learning * bias_hidden_cumulative_gradient
+    bias_hidden_adjusted = bias_hidden - learning_step * bias_hidden_cumulative_gradient
     logger.debug(f"Adjusted hidden bias: {bias_hidden_adjusted}")
 
     return weights_hidden_adjusted, weights_output_adjusted, bias_hidden_adjusted, bias_output_adjusted, y_output, E
@@ -124,7 +124,7 @@ for i in range(100):
         bias_hidden,
         bias_output,
         y_expected,
-        n_learning
+        learning_step
     )
 
     weights_hidden, weights_output, bias_hidden, bias_output, y, E = adjusted_values
