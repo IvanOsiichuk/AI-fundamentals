@@ -13,7 +13,7 @@ bias_output = 1
 n_learning = 0.8
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 WeightsMatrix = npt.NDArray[np.float64]
 WeightsVector = npt.NDArray[np.float64]
@@ -111,11 +111,11 @@ def train_neural_network_using_back_propagation(
     bias_hidden_adjusted = bias_hidden - n_learning * bias_hidden_cumulative_gradient
     logger.debug(f"Adjusted hidden bias: {bias_hidden_adjusted}")
 
-    return weights_hidden_adjusted, weights_output_adjusted, bias_hidden_adjusted, bias_output_adjusted, E
+    return weights_hidden_adjusted, weights_output_adjusted, bias_hidden_adjusted, bias_output_adjusted, y_output, E
 
 
 logger.info("E - error between expected and actual")
-for i in range(1):
+for i in range(100):
     logger.info(f"----------ITERATION {i}----------")
     adjusted_values = train_neural_network_using_back_propagation(
         inputs,
@@ -127,5 +127,6 @@ for i in range(1):
         n_learning
     )
 
-    weights_hidden, weights_output, bias_hidden, bias_output, E = adjusted_values
+    weights_hidden, weights_output, bias_hidden, bias_output, y, E = adjusted_values
+    logger.info(f"inputs {inputs} lead to output {y}")
     logger.info(f"E = {E} on iteration {i}")
