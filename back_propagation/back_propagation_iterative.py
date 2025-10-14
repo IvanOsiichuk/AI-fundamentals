@@ -10,7 +10,7 @@ weights_hidden = np.array([[0.2, 0.4, 0.7, 0.5], [0.3, 0.5, 0.6, 0.9]])
 weights_output = np.array([0.2, 0.4, 0.6, 0.8])
 bias_hidden = 1
 bias_output = 1
-learning_step = 0.8
+learning_step = 0.1
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
@@ -115,7 +115,7 @@ def train_neural_network_using_back_propagation(
 
 
 logger.info("E - error between expected and actual")
-for i in range(100):
+for i in range(1000):
     logger.info(f"----------ITERATION {i}----------")
     adjusted_values = train_neural_network_using_back_propagation(
         inputs,
